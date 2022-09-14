@@ -9,19 +9,98 @@
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/gmaps-sidebar.css" />
         <style>
-        html, body, #map {
-            width: 100%;
-            height: 100%;
+        body {
             padding: 0;
             margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+
+        .lorem {
+            font-style: italic;
+            color: #AAA;
         }
         </style>
         <title></title>
     </head>
-    <body>
-        <div id="map">
+    <body onload="initialize()">
+         <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+            <div class="sidebar-tabs">
+                <ul role="tablist">
+                    <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                    <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                    <li ><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+
+                </ul>
+
+                <ul role="tablist">
+                    <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+                </ul>
+            </div>
+
+            <!-- Tab panes -->
+            <div class="sidebar-content">
+                <div class="sidebar-pane" id="home">
+                    <h1 class="sidebar-header">
+                         Niamey Forest Climatique
+                        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                    </h1>
+                    <p>
+                        INFORMATION <hr>
+                        Cette plateforme a été développée pour analyser l'impact des arbres sur le microclimat local. Le modèle WBGT (développé par Vito) permet de modéliser le stress thermique à une résolution de deux mètres.
+                        Avec l'aide de l'African Centre of Meteorological Application for Development (ACMAD) et la ville de Niamey, trois campagnes de mesures dans 3 quartiers (Bobiel, Talladje et Dezeybon) ont été faites afin de mesurer la différence de température entre une zone ombragée et une zone exposée au soleil. Ces mesures sont affichées sur cette plateforme.
+                        Ce modèle nous permet de produire de l’information détaillée sur la chaleur extrême et le stress thermique.
+                        La plateforme a pour vocation d'être utilisée par des acteurs locaux afin de développer des mesures pour améliorer l'aménagement urbain de Niamey.
+                        Ce projet est financé par la Flandre dans le cadre du programme Gstic.
+                    </p>
+
+                    <p>
+
+                        EXPLIATION WBGT <hr>
+                        Les données sont exprimés en Wet Bulb Globe Temp (WBGT) - ce PUT TEXT HERE EXPL about wbgt
+                    </p>
+
+                    <p>
+                        REPRESENTATION DES CARTES <hr>
+                        La carte reprenste le heat stress (WGBT) modelise à 13h le 10/05/2020 ....
+                    </p>
+
+                </div>
+
+                <div class="sidebar-pane" id="profile">
+                    <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                </div>
+
+                <div class="sidebar-pane" id="messages">
+                    <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                    <p >
+                        Pour plus d'information: <hr>
+                    <li><a href = "mailto: sacha.takacs@vito.be">Sacha Takacs</a><br></li>
+                    <li><a href = "mailto: niels.souverijns@vito.be">Niels Souverijns</a><br></li>
+                    <li><a href = "mailto: koen.deridder@vito.be">Koen De Ridder</a><br></li>
+
+
+                    </p>
+
+                </div>
+
+                <div class="sidebar-pane" id="settings">
+                    <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                </div>
+            </div>
         </div>
+        <div id="map" class="sidebar-map"></div>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js" type="text/javascript"></script>
+        <script src="js/jquery-sidebar.js"></script>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
@@ -94,6 +173,8 @@
         });
         layer_GoogleSatellite_0;
         map.addLayer(layer_GoogleSatellite_0);
+
+        var sidebar = $('#sidebar').sidebar();
         function pop_Bobiel_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
