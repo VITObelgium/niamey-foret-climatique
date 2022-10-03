@@ -1,0 +1,5 @@
+.my-custom-control {
+  background-image: url('images/vito.JPG');
+  width:300px; /* you will likely need to specify image width and height here */
+  height:300px;
+}

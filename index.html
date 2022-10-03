@@ -53,24 +53,25 @@
                          Niamey Forest Climatique
                         <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                     </h1>
-                    <p>
-                        INFORMATION <hr>
-                        Cette plateforme a été développée pour analyser l'impact des arbres sur le microclimat local. Le modèle WBGT (développé par Vito) permet de modéliser le stress thermique à une résolution de deux mètres.
-                        Avec l'aide de l'African Centre of Meteorological Application for Development (ACMAD) et la ville de Niamey, trois campagnes de mesures dans 3 quartiers (Bobiel, Talladje et Dezeybon) ont été faites afin de mesurer la différence de température entre une zone ombragée et une zone exposée au soleil. Ces mesures sont affichées sur cette plateforme.
-                        Ce modèle nous permet de produire de l’information détaillée sur la chaleur extrême et le stress thermique.
-                        La plateforme a pour vocation d'être utilisée par des acteurs locaux afin de développer des mesures pour améliorer l'aménagement urbain de Niamey.
-                        Ce projet est financé par la Flandre dans le cadre du programme Gstic.
-                    </p>
-
-                    <p>
-
-                        EXPLICATION WBGT <hr>
-                        Les données sont exprimés en Wet Bulb Globe Temp (WBGT) - ce PUT TEXT HERE EXPL about wbgt
-                    </p>
-
-                    <p>
-                        REPRESENTATION DES CARTES <hr>
-                        La carte reprenste le heat stress (WGBT) modelise à 13h le 10/05/2020 ....
+                    <p>                     
+                       INFORMATION <hr>
+                           <ol>
+                               <li>Cette plateforme a été développée afin d'analyser l'impact des arbres sur le microclimat local. Le modèle de stress thermique (WBGT), développé par le centre Vito, permet de modéliser le stress thermique à une résolution de deux mètres.
+                               Avec l'aide de l'African Centre of Meteorological Application for Development (ACMAD) et la ville de Niamey, trois campagnes de mesures dans 3 quartiers distincts : i) Bobiel ii) Talladje et iii) Dezeybon ont été menées.
+                               Chaque campagne de mesure est représentée par une couleur différente sur la carte ci-présente.
+                               L'objectif des campagnes de mesures était mesuré la différence de stress thermique perçu entre une zone ombragée et une zone exposée au soleil.
+                               La plateforme a pour vocation d'être utilisée par des acteurs locaux afin de développer des mesures pour améliorer l'aménagement urbain de Niamey.
+                               De plus, cette plateforme est conçue comme outil de sensibilisation et d'accompagnement des collectivités locales dans l'accès aux fonds internationaux pour le climat, permettant ainsi une mise en œuvre efficace des mesures de résilience.
+                              </li>
+                              <br>
+                               <li>Les trois cartes représentent le plus haut stress thermique modélisé pour la journée du 19 mai 2022.</li>
+                               <br>
+                               <li>L'indice de Température au thermomètre-globe mouillé, son nom originel Bulb Globe (WBGT), est un indice composite de température utilisé pour estimer les effets de la température, de l'humidité, et du rayonnement solaire sur l'homme.
+                               Il est le seul indice de température ressentie à tenir compte du rayonnement solaire.
+                        
+                        
+                        
+        
                     </p>
 
                 </div>
@@ -82,10 +83,7 @@
                 <div class="sidebar-pane" id="messages">
                     <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
                     <p >
-                        Pour plus d'information: <hr>
-                    <li><a href = "mailto: sacha.takacs@vito.be">Sacha Takacs</a><br></li>
-                    <li><a href = "mailto: niels.souverijns@vito.be">Niels Souverijns</a><br></li>
-                    <li><a href = "mailto: koen.deridder@vito.be">Koen De Ridder</a><br></li>
+                        Pour plus d'informations à propos du site internet, veuillez nous <a href = "mailto: sacha.takacs@vito.be">contacter</a><hr>
 
 
                     </p>
@@ -344,6 +342,17 @@
         bounds_group.addLayer(layer_Deyzetbon_wbgt_20220517_6);
         map.addLayer(layer_Deyzetbon_wbgt_20220517_6);
 
+        var logo = L.control({position: 'bottomright'});
+        logo.onAdd = function(map){
+            var div = L.DomUtil.create('div', 'myclass');
+            div.innerHTML= "<img src='images/vito_2.JPG'/>";
+            return div;
+        }
+        logo.addTo(map);
+        
+        /////put another image here
+
+
         /////put all layers and opacity control
         const Map_BaseLayer = {
 		'Google sattelite': layer_GoogleSatellite_0,
@@ -362,7 +371,7 @@
 //OpacityControl
         L.control
             .opacity(Map_AddLayer, {
-                label: 'Layers Opacity',
+                label: 'Opacité des cartes',
             })
             .addTo(map);
         function pop_measurements_05_24_7(feature, layer) {
@@ -374,15 +383,8 @@
                 },
                 mouseover: highlightFeature,
             });
+
             var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Lon</th>\
-                        <td>' + (feature.properties['Lon'] !== null ? autolinker.link(feature.properties['Lon'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Lat</th>\
-                        <td>' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
-                    </tr>\
                     <tr>\
                         <th scope="row">Figure</th>\
                         <td>' + (feature.properties['Figure'] !== null ? '<img src="images/' + String(feature.properties['Figure']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
@@ -396,9 +398,8 @@
                         <td>' + (feature.properties['Download'] !== null ? autolinker.link(feature.properties['Download'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
-            layer.bindPopup(popupContent, {maxHeight: "auto"});
+            layer.bindPopup(popupContent, {maxWidth: 600,maxHeight: 300});
         }
-
         function style_measurements_05_24_7_0() {
             return {
                 pane: 'pane_measurements_05_24_7',
@@ -446,14 +447,6 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Lon</th>\
-                        <td>' + (feature.properties['Lon'] !== null ? autolinker.link(feature.properties['Lon'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Lat</th>\
-                        <td>' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <th scope="row">Figure</th>\
                         <td>' + (feature.properties['Figure'] !== null ? '<img src="images/' + String(feature.properties['Figure']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
                     </tr>\
@@ -466,7 +459,7 @@
                         <td>' + (feature.properties['Download'] !== null ? autolinker.link(feature.properties['Download'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
-            layer.bindPopup(popupContent, {maxHeight: "auto"});
+            layer.bindPopup(popupContent, {maxWidth: 600,maxHeight: 300});
         }
 
         function style_measurements_05_17_8_0() {
@@ -516,14 +509,6 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Lon</th>\
-                        <td>' + (feature.properties['Lon'] !== null ? autolinker.link(feature.properties['Lon'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Lat</th>\
-                        <td>' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <th scope="row">Figure</th>\
                         <td>' + (feature.properties['Figure'] !== null ? '<img src="images/' + String(feature.properties['Figure']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
                     </tr>\
@@ -536,7 +521,7 @@
                         <td>' + (feature.properties['Download'] !== null ? autolinker.link(feature.properties['Download'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
-            layer.bindPopup(popupContent, {maxHeight: "auto"});
+            layer.bindPopup(popupContent, {maxWidth: 600,maxHeight: 300});
         }
 
         function style_measurements_05_19_9_0() {
